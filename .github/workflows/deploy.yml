@@ -1,0 +1,26 @@
+name: Deploy Ansible
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Ubuntu Server
+        uses: appleboy/ssh-action@v1.0.3
+
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+
+          script: |
+            cd ~/network-automation
+            git pull
+            ansible-galaxy collection install -r requirements.yml
+            ansible-playbook playbooks/configure_ip.yml
