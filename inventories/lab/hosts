@@ -6,8 +6,8 @@ R3 ansible_host=192.168.1.103
 [cisco:vars]
 ansible_connection=network_cli
 ansible_network_os=cisco.ios.ios
-ansible_user=admin
-ansible_password=cisco
+ansible_user=paul
+ansible_password=Ptp2026$
 ansible_become=yes
 ansible_become_method=enable
-ansible_become_password=cisco
+ansible_become_password=Ptp2026$
