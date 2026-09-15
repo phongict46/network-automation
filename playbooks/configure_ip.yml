@@ -1,5 +1,6 @@
 ---
-- hosts: cisco
+- name: Configure IP Addresses on Hosts
+- hosts: all
   gather_facts: false
 
   tasks:
