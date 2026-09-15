@@ -1,6 +1,6 @@
 ---
 - name: Configure IP Addresses on Hosts
-- hosts: all
+  hosts: all
   gather_facts: false
   tasks:
     - name: Show version
