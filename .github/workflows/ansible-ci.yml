@@ -44,4 +44,4 @@ jobs:
       - name: Ansible Lint
         run: |
           ansible-lint
-          
+
