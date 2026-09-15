@@ -1,9 +1,8 @@
 ---
 - hosts: cisco
-  gather_facts: no
+  gather_facts: false
 
   tasks:
-
     - name: Show version
       cisco.ios.ios_command:
         commands:
