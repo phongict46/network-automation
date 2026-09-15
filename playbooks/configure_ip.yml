@@ -1,0 +1,10 @@
+---
+- hosts: cisco
+  gather_facts: no
+
+  tasks:
+
+    - name: Show version
+      cisco.ios.ios_command:
+        commands:
+          - show version
