@@ -1,7 +1,7 @@
 ---
 name: Ansible CI
 
-on:
+true:
   push:
     branches:
       - main
@@ -44,4 +44,3 @@ jobs:
       - name: Ansible Lint
         run: |
           ansible-lint
-
