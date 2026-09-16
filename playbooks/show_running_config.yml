@@ -6,7 +6,7 @@
   tasks:
     - name: Run show running-config
       cisco.ios.ios_command:
-        commands: - show running-config
+        commands: ["show running-config"]
       register: config_output
 
 # Play 2: Run locally on the Ansible control node to aggregate output
