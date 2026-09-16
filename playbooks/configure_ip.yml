@@ -7,3 +7,8 @@
       cisco.ios.ios_command:
         commands:
           - show version
+
+    - name: Configure Layer 3 IP Addresses
+      cisco.ios.ios_l3_interfaces:
+        config: "{{ router_interfaces }}"
+        state: merged
