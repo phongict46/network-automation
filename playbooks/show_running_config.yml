@@ -1,15 +1,16 @@
 ---
-# Play 1: Connect to Cisco devices and gather running-configs
+# Play 1: Target changed from cisco_routers to routers
 - name: Gather Running Configurations from All Routers
-  hosts: cisco_routers
+  hosts: routers
   gather_facts: no
   tasks:
     - name: Run show running-config
       cisco.ios.ios_command:
-        commands: ["show running-config"]
+        commands:
+          - show running-config
       register: config_output
 
-# Play 2: Run locally on the Ansible control node to aggregate output
+# Play 2: Aggregate output locally
 - name: Combine All Configurations Into One File
   hosts: localhost
   gather_facts: no
@@ -18,10 +19,10 @@
       ansible.builtin.copy:
         dest: "./all_routers_running_config.txt"
         content: |
-          {% for host in groups['cisco_routers'] %}
+          {% for host in groups.get('routers', []) %}
           ======================================================================
-          DEVICE: {{ host }} ({{ hostvars[host]['ansible_host'] }})
+          DEVICE: {{ host }} ({{ hostvars[host].get('ansible_host', 'No IP') }})
           ======================================================================
-          {{ hostvars[host]['config_output']['stdout'][0] }}
+          {{ hostvars[host].get('config_output', {}).get('stdout', ['No config gathered']) }}
 
           {% endfor %}
