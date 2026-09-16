@@ -1,18 +1,15 @@
+---
 name: Deploy Ansible
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   deploy:
     runs-on: self-hosted
-
     steps:
       # 1. Pull down the latest code repository onto the server
       - name: Checkout Code
         uses: actions/checkout@v4
-
       # 2. Run your Ansible commands directly on the host machine
       - name: Deploy to Ubuntu Server
         run: |
