@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
     steps:
       # 1. Pull down the latest code repository onto the server
       - name: Checkout Code
