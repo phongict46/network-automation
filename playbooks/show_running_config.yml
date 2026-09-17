@@ -26,8 +26,4 @@
           {{ hostvars[host].get('config_output', {}).get('stdout', ['No config gathered']) }}
 
           {% endfor %}
-    - name: Upload Configuration Backup File
-      uses: actions/upload-artifact@v4
-      with:
-        name: router-backups
-        path: all_routers_running_config.txt
+

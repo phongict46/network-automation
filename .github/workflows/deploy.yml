@@ -17,3 +17,8 @@ jobs:
         run: |
           ansible-galaxy collection install -r requirements.yml
           ansible-playbook playbooks/show_running_config.yml
+      - name: Upload Configuration Backup File
+        uses: actions/upload-artifact@v4
+        with:
+          name: router-backups
+          path: all_routers_running_config.txt
