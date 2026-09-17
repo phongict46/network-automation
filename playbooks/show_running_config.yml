@@ -1,5 +1,4 @@
 ---
-# Play 1: Connect to routers and save configurations individually
 - name: Gather and Separate Router Configurations
   hosts: routers
   gather_facts: no
