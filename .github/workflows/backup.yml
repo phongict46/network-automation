@@ -16,4 +16,9 @@ jobs:
       - name: Deploy to Ubuntu Server
         run: |
           ansible-galaxy collection install -r requirements.yml
-          ansible-playbook playbooks/configure_ip.yml
+          ansible-playbook playbooks/show_running_config.yml
+      - name: Upload Configuration Backup File
+        uses: actions/upload-artifact@v4
+        with:
+          name: router-backups
+          path: "*.txt"              # Changed from playbooks/*.txt to *.txt
