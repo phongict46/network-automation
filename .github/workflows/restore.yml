@@ -3,7 +3,7 @@ name: Restore Network Configuration
 
 on:
   workflow_dispatch:
-    # 💡 Setting true here satisfies the linter and permits configuration child maps
+    # 💡 Setting true here satisfies the linter
     inputs:
 
       target_device:
@@ -38,7 +38,7 @@ jobs:
         run: ls -la *.txt
 
       - name: Deploy Restore Configuration via Ansible
-        # 💡 Splitting commands into a multi-line literal block avoids line-length limits
+        # 💡 Splitting commands into a multi-line 
         run: |
           ansible-galaxy collection install -r requirements.yml
           ansible-playbook -i inventories/lab/hosts \
