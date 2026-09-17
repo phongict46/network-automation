@@ -3,9 +3,7 @@ name: Restore Network Configuration
 
 on:
   workflow_dispatch:
-    # 💡 Setting true here satisfies the linter
     inputs:
-
       target_device:
         description: 'Select the device or group to restore'
         required: true
@@ -38,7 +36,6 @@ jobs:
         run: ls -la *.txt
 
       - name: Deploy Restore Configuration via Ansible
-        # 💡 Splitting commands into a multi-line
         run: |
           ansible-galaxy collection install -r requirements.yml
           ansible-playbook -i inventories/lab/hosts \
