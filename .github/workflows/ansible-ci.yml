@@ -1,0 +1,46 @@
+---
+name: Ansible CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ansible
+        run: |
+          pip install ansible
+          pip install ansible-lint
+          pip install yamllint
+
+      - name: Install Cisco Collection
+        run: |
+          ansible-galaxy collection install cisco.ios
+
+      - name: YAML Check
+        run: |
+          yamllint .
+
+      - name: Syntax Check
+        run: |
+          ansible-playbook playbooks/configure_ip.yml --syntax-check
+
+      - name: Ansible Lint
+        run: |
+          ansible-lint
