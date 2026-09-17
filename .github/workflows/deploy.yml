@@ -1,5 +1,5 @@
 ---
-name: Deploy Ansible
+name: Deploy Static IP Router Ansible
 on:
   workflow_dispatch:
   push:
