@@ -13,14 +13,14 @@ jobs:
     steps:
       # 1. Pull down the latest code repository onto the server
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.4.1
       # 2. Run your Ansible commands directly on the host machine
       - name: Deploy to Ubuntu Server
         run: |
           ansible-galaxy collection install -r requirements.yml
           ansible-playbook playbooks/show_running_config.yml
       - name: Upload Configuration Backup File
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.1
         with:
           name: router-backups
           path: "*.txt"              # Changed from playbooks/*.txt to *.txt
