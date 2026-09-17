@@ -13,4 +13,5 @@
       ansible.builtin.copy:
         dest: "../{{ inventory_hostname }}.txt"
         content: "{{ config_output.stdout | join('\n') }}"
+        mode: '0644'  # 💡 Add this line to explicitly set file permissions
       delegate_to: localhost
