@@ -1,0 +1,20 @@
+---
+- name: Restore Running Configuration on Cisco Devices
+  hosts: "{{ target_host | default('routers') }}"
+  gather_facts: no
+  tasks:
+    - name: Verify backup file exists locally on runner
+      ansible.builtin.stat:
+        path: "../{{ inventory_hostname }}.txt"
+      register: backup_file
+      delegate_to: localhost
+
+    - name: Fail if backup configuration file is missing
+      ansible.builtin.fail:
+        msg: "Backup file ../{{ inventory_hostname }}.txt was not found! Cannot restore."
+      when: not backup_file.stat.exists
+
+    - name: Apply backup configuration to device
+      cisco.ios.ios_config:
+        src: "../{{ inventory_hostname }}.txt"
+        save_when: always
