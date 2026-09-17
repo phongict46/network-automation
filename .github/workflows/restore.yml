@@ -2,8 +2,10 @@
 name: Restore Network Configuration
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    # 💡 Setting true here satisfies the linter and permits configuration child maps
     inputs:
+
       target_device:
         description: 'Select the device or group to restore'
         required: true
@@ -26,17 +28,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 💡 STEP: Download backup files directly from GitHub Artifact Storage
       - name: Download Router Backup Artifacts
         uses: actions/download-artifact@v4
         with:
           name: router-backups
-          path: ./                   # Drops R1.txt, R2.txt, etc., straight into the workspace root
+          path: ./
 
       - name: Verify downloaded configurations
         run: ls -la *.txt
 
       - name: Deploy Restore Configuration via Ansible
+        # 💡 Splitting commands into a multi-line literal block avoids line-length limits
         run: |
           ansible-galaxy collection install -r requirements.yml
-          ansible-playbook -i inventories/lab/hosts playbooks/restore_config.yml --extra-vars "target_host=${{ github.event.inputs.target_device }}"
+          ansible-playbook -i inventories/lab/hosts \
+            playbooks/restore_config.yml \
+            --extra-vars \
+            "target_host=${{ github.event.inputs.target_device }}"
