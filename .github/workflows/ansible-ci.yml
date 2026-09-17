@@ -1,8 +1,8 @@
 ---
 name: Ansible CI
 
-on:
-  workflow_dispatch:
+on: 
+  workflow_dispatch: {}
   push:
     branches:
       - main
@@ -41,6 +41,10 @@ jobs:
       - name: Syntax Check
         run: |
           ansible-playbook playbooks/configure_ip.yml --syntax-check
+
+      - name: Syntax Check - Show Running Config
+        run: |
+          ansible-playbook playbooks/show_running_config.yml --syntax-check
 
       - name: Ansible Lint
         run: |
