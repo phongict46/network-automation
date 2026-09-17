@@ -21,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: router-backups
-          path: playbooks/*.txt
+          path: "*.txt"              # Changed from playbooks/*.txt to *.txt
