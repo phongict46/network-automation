@@ -1,6 +1,6 @@
 ---
-# Play 1: Target changed from cisco_routers to routers
-- name: Gather Running Configurations from All Routers
+# Play 1: Connect to routers and save configurations individually
+- name: Gather and Separate Router Configurations
   hosts: routers
   gather_facts: no
   tasks:
@@ -10,19 +10,8 @@
           - show running-config
       register: config_output
 
-# Play 2: Aggregate output locally
-- name: Combine All Configurations Into One File
-  hosts: localhost
-  gather_facts: no
-  tasks:
-    - name: Write combined configurations to a single file
+    - name: Save individual configuration files locally
       ansible.builtin.copy:
-        dest: "./all_routers_running_config.txt"
-        content: |
-          {% for host in groups.get('routers', []) %}
-          ======================================================================
-          DEVICE: {{ host }} ({{ hostvars[host].get('ansible_host', 'No IP') }})
-          ======================================================================
-          {{ hostvars[host]['config_output']['stdout'] | join('\n') }}
-
-          {% endfor %}
+        dest: "../{{ inventory_hostname }}.txt"
+        content: "{{ config_output.stdout | join('\n') }}"
+      delegate_to: localhost

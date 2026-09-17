@@ -21,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: router-backups
-          path: playbooks/all_routers_running_config.txt
+          path: playbooks/*.txt
