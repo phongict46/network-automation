@@ -1,7 +1,8 @@
+---
 name: Restore Network Configuration
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
     inputs:
       target_device:
         description: 'Select the device or group to restore'
