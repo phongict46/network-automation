@@ -3,9 +3,6 @@ name: Backup Router Ansible
 
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - main
 
 permissions:
   contents: write
