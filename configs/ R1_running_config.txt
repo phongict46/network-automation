@@ -1,0 +1,126 @@
+Building configuration...
+
+  
+Current configuration : 1182 bytes
+!
+! Last configuration change at 04:32:18 UTC Fri Sep 18 2026 by paul
+!
+version 15.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$QXjc$/xQzPhnSjXNrG8HBoTF301
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip domain name paul.local
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+username paul secret 5 $1$bQcY$tHZZztes9q7XCajooGdBT/
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 192.168.12.100 255.255.255.0
+ duplex auto
+!
+interface Ethernet0/1
+ ip address 192.168.10.1 255.255.255.0
+ duplex auto
+!
+interface Ethernet0/2
+ ip address 192.168.1.101 255.255.255.0
+ duplex auto
+!
+interface Ethernet0/3
+ no ip address
+ duplex auto
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 192.168.1.1
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+end
