@@ -38,10 +38,6 @@ jobs:
         run: |
           yamllint .
 
-      - name: Syntax Check
-        run: |
-          ansible-playbook playbooks/configure_ip.yml --syntax-check
-
       - name: Syntax Check - Show Running Config
         run: |
           ansible-playbook playbooks/show_running_config.yml --syntax-check
@@ -49,6 +45,10 @@ jobs:
       - name: Syntax Check - Show Running Config
         run: |
           ansible-playbook playbooks/restore_config.yml --syntax-check
+
+      - name: Syntax Check - Show Running Config
+        run: |
+          ansible-playbook playbooks/deploy_config.yml --syntax-check
 
       - name: Ansible Lint
         run: |
