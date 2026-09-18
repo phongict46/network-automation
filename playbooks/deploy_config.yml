@@ -1,0 +1,23 @@
+---
+- name: Configure IP addresses and enable interfaces
+  hosts: "{{ target_host | default('routers') }}"  # 💡 Dynamically switches target
+  gather_facts: false
+
+  tasks:
+    - name: Configure device interfaces
+      cisco.ios.ios_config:
+        parents: "interface {{ item.name }}"
+        lines:
+          - ip address {{ item.ip }} {{ item.mask }}
+          - no shutdown
+        save_when: always
+      loop: "{{ interfaces }}"
+      when: interfaces is defined
+
+    - name: Disable automatic network configuration loading
+      cisco.ios.ios_config:
+        lines:
+          - no boot network
+          - no boot host
+          - no service config
+        save_when: always

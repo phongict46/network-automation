@@ -1,16 +1,30 @@
 ---
-name: Deploy Static IP Router Ansible
+name: Deploy Network Configuration
+
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      target_device:
+        description: 'Select the device or group to configure'
+        required: true
+        default: 'routers'
+        type: choice
+        options:
+          - routers
+          - R1
+          - R2
+          - R3
+
 jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      # 1. Pull down the latest code repository onto the server
       - name: Checkout Code
         uses: actions/checkout@v4
-      # 2. Run your Ansible commands directly on the host machine
-      - name: Deploy to Ubuntu Server
+
+      - name: Deploy Configuration via Ansible
         run: |
           ansible-galaxy collection install -r requirements.yml
-          ansible-playbook playbooks/configure_ip.yml
+          ansible-playbook -i inventories/lab/hosts \
+            playbooks/deploy_config.yml \
+            --extra-vars "target_host=${{ github.event.inputs.target_device }}"
