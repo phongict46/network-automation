@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
     inputs:
       target_device:
-        description: 'Select the device or group to restore'
+        description: "Select the device or group to restore"
         required: true
-        default: 'routers'
+        default: "routers"
         type: choice
         options:
           - routers
@@ -26,19 +26,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Download Router Backup Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: router-backups
-          path: ./
+      - name: Install Ansible Collection
+        run: ansible-galaxy collection install -r requirements.yml
 
-      - name: Verify downloaded configurations
-        run: ls -la *.txt
-
-      - name: Deploy Restore Configuration via Ansible
+      - name: Restore Configuration
         run: |
-          ansible-galaxy collection install -r requirements.yml
-          ansible-playbook -i inventories/lab/hosts \
+          ansible-playbook \
+            -i inventories/lab/hosts \
             playbooks/restore_config.yml \
-            --extra-vars \
-            "target_host=${{ github.event.inputs.target_device }}"
+            --extra-vars "target_host=${{ github.event.inputs.target_device }}"

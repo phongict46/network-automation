@@ -1,24 +1,42 @@
 ---
 name: Backup Router Ansible
+
 on:
   workflow_dispatch: {}
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: self-hosted
+
     steps:
-      # 1. Pull down the latest code repository onto the server
       - name: Checkout Code
         uses: actions/checkout@v4
-      # 2. Run your Ansible commands directly on the host machine
+        with:
+          fetch-depth: 0
+
       - name: Deploy to Ubuntu Server
         run: |
           ansible-galaxy collection install -r requirements.yml
           ansible-playbook playbooks/show_running_config.yml
-      - name: Upload Configuration Backup File
-        uses: actions/upload-artifact@v4
-        with:
-          name: router-backups
-          path: "*.txt"              # Changed from playbooks/*.txt to *.txt
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Commit router backups
+        run: |
+          git add configs/
+
+          if git diff --cached --quiet; then
+            echo "No configuration changes."
+          else
+            git commit -m "Router backup $(date '+%Y-%m-%d %H:%M:%S')"
+            git push origin main
+          fi
