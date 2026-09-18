@@ -1,6 +1,6 @@
 ---
 - name: Configure IP addresses and enable interfaces
-  hosts: "{{ target_host | default('routers') }}"  # 💡 Dynamically switches target
+  hosts: "{{ target_host | default('routers') }}"
   gather_facts: false
 
   tasks:
