@@ -46,6 +46,10 @@ jobs:
         run: |
           ansible-playbook playbooks/show_running_config.yml --syntax-check
 
+      - name: Syntax Check - Show Running Config
+        run: |
+          ansible-playbook playbooks/restore_config.yml --syntax-check
+
       - name: Ansible Lint
         run: |
           ansible-lint
