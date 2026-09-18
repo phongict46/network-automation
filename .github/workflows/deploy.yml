@@ -2,9 +2,6 @@
 name: Deploy Static IP Router Ansible
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - main
 jobs:
   deploy:
     runs-on: self-hosted
