@@ -80,7 +80,7 @@ redundancy
 !
 !
 interface Ethernet0/0
- ip address 192.168.12.100 255.255.255.0
+ ip address 192.168.12.1 255.255.255.0
  duplex auto
 !
 interface Ethernet0/1
