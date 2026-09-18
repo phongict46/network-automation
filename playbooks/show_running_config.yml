@@ -11,7 +11,9 @@
 
     - name: Save individual configuration files locally
       ansible.builtin.copy:
-        dest: "{{ playbook_dir }}/../configs/{{ inventory_hostname }}_running_config.txt"
+        dest: >-
+          {{ playbook_dir }}/../configs/
+          {{ inventory_hostname }}_running_config.txt
         content: "{{ config_output.stdout | join('\n') }}"
         mode: '0644'  # 💡 Add this line to explicitly set file permissions
       delegate_to: localhost
