@@ -1,7 +1,7 @@
 ---
 name: Restore Network Configuration
 
-on:
+'on':
   workflow_dispatch:
     inputs:
       target_device:
