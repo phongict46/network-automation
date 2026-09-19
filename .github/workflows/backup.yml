@@ -35,8 +35,7 @@ jobs:
           if [ "${{ github.event.inputs.target_device }}" = "routers" ]; then
             ansible-playbook playbooks/show_running_config.yml
           else
-          ansible-playbook playbooks/show_running_config.yml
-            --limit ${{ github.event.inputs.target_device }}
+          ansible-playbook playbooks/show_running_config.yml --limit ${{ github.event.inputs.target_device }}
           fi
 
       - name: Configure Git
