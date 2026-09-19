@@ -1,0 +1,20 @@
+---
+- name: Configure static routes
+  cisco.ios.ios_config:
+    lines:
+      - "ip route {{ item.prefix }} {{ item.mask }} {{ item.next_hop }}"
+    save_when: always
+  loop: "{{ static_routes | default([]) }}"
+  when: static_routes is defined and static_routes | length > 0
+
+- name: Show configured static routes
+  cisco.ios.ios_command:
+    commands:
+      - show ip route static
+  register: static_route_output
+  when: static_routes is defined and static_routes | length > 0
+
+- name: Display static routes status
+  ansible.builtin.debug:
+    var: static_route_output.stdout_lines
+  when: static_routes is defined and static_routes | length > 0

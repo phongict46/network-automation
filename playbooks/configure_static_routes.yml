@@ -1,0 +1,21 @@
+---
+- name: Configure static routes on Cisco IOS devices
+  hosts: "{{ target_host | default('routers') }}"
+  gather_facts: false
+
+  pre_tasks:
+    - name: Save current running configuration before route changes
+      cisco.ios.ios_command:
+        commands:
+          - show running-config
+      register: running_config_before
+
+    - name: Save backup snapshot locally
+      ansible.builtin.copy:
+        dest: "{{ playbook_dir }}/../configs/{{ inventory_hostname }}_before_static_route.txt"
+        content: "{{ running_config_before.stdout | join('\n') }}"
+        mode: '0644'
+      delegate_to: localhost
+
+  roles:
+    - role: configure
