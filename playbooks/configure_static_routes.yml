@@ -2,6 +2,8 @@
 - name: Configure static routes on Cisco IOS devices
   hosts: "{{ target_host | default('routers') }}"
   gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/../group_vars/routers/vault.yml"
 
   pre_tasks:
     - name: Save current running configuration before route changes

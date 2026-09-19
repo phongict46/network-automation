@@ -2,6 +2,8 @@
 - name: Restore Running Configuration on Cisco Devices
   hosts: "{{ target_host | default('routers') }}"
   gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/../group_vars/routers/vault.yml"
 
   tasks:
     - name: Verify backup file exists locally on runner
