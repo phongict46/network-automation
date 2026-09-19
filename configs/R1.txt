@@ -101,6 +101,8 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 192.168.1.1
+no ip route 192.168.2.0 255.255.255.0 192.168.12.200
+no ip route 192.168.23.0 255.255.255.0 192.168.12.200
 !
 ipv6 ioam timestamp
 !
