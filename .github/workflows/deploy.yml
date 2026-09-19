@@ -28,3 +28,6 @@ jobs:
           ansible-playbook -i inventories/lab/hosts \
             playbooks/deploy_config.yml \
             --extra-vars "target_host=${{ github.event.inputs.target_device }}"
+          ansible-playbook -i inventories/lab/hosts \
+            playbooks/configure_static_routes.yml \
+            --extra-vars "target_host=${{ github.event.inputs.target_device }}"
