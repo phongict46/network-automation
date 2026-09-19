@@ -8,7 +8,7 @@ interfaces:
     ip: "192.168.23.2"
     mask: "255.255.255.0"
 
-static_routes:
+configure_static_routes:
   - prefix: "192.168.10.0"
     mask: "255.255.255.0"
     next_hop: "192.168.12.100"
