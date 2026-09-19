@@ -30,6 +30,12 @@ jobs:
           printf '%s' "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
           chmod 600 .vault_pass
           trap 'rm -f .vault_pass' EXIT
+          test -f group_vars/routers/vault.yml || {
+            echo "Missing encrypted group_vars/routers/vault.yml"
+            echo "Create it with ansible-vault and commit the encrypted file."
+            exit 1
+          }
+          ansible-vault view group_vars/routers/vault.yml >/dev/null
           ansible-playbook -i inventories/lab/hosts \
             playbooks/deploy_config.yml \
             --extra-vars "target_host=${{ github.event.inputs.target_device }}"
