@@ -3,6 +3,17 @@ name: Backup Router Ansible
 
 on:
   workflow_dispatch: {}
+    inputs:
+      target_device:
+        description: 'Select the device or group to configure'
+        required: true
+        default: 'routers'
+        type: choice
+        options:
+          - routers
+          - R1
+          - R2
+          - R3
 
 permissions:
   contents: write
