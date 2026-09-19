@@ -30,7 +30,12 @@ jobs:
         run: ansible-galaxy collection install -r requirements.yml
 
       - name: Restore Configuration
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: |
+          printf '%s' "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
+          chmod 600 .vault_pass
+          trap 'rm -f .vault_pass' EXIT
           ansible-playbook \
             -i inventories/lab/hosts \
             playbooks/restore_config.yml \

@@ -29,8 +29,13 @@ jobs:
           fetch-depth: 0
 
       - name: Deploy to Ubuntu Server
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: |
           ansible-galaxy collection install -r requirements.yml
+          printf '%s' "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
+          chmod 600 .vault_pass
+          trap 'rm -f .vault_pass' EXIT
 
           if [ "${{ github.event.inputs.target_device }}" = "routers" ]; then
             ansible-playbook playbooks/show_running_config.yml

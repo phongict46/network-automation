@@ -14,6 +14,8 @@ name: Ansible CI
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
 
     steps:
       - name: Checkout Repository
@@ -33,6 +35,8 @@ jobs:
       - name: Install Cisco Collection
         run: |
           ansible-galaxy collection install cisco.ios
+          printf '%s' "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
+          chmod 600 .vault_pass
 
       - name: YAML Check
         run: |
@@ -53,3 +57,7 @@ jobs:
       - name: Ansible Lint
         run: |
           ansible-lint
+
+      - name: Remove temporary Vault password
+        if: always()
+        run: rm -f .vault_pass

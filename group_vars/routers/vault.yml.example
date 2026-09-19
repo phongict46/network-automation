@@ -1,0 +1,5 @@
+---
+# Copy this file to vault.yml and encrypt it with ansible-vault.
+vault_ansible_user: "REPLACE_WITH_DEVICE_USERNAME"
+vault_ansible_password: "REPLACE_WITH_DEVICE_PASSWORD"
+vault_ansible_become_password: "REPLACE_WITH_ENABLE_PASSWORD"
