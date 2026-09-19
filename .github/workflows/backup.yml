@@ -2,7 +2,7 @@
 name: Backup Router Ansible
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
     inputs:
       target_device:
         description: 'Select the device or group to configure'
