@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 1230 bytes
+Current configuration : 1229 bytes
 !
-! Last configuration change at 07:35:36 UTC Sat Sep 19 2026 by paul
+! Last configuration change at 07:46:55 UTC Sat Sep 19 2026 by paul
 !
 version 15.7
 service timestamps debug datetime msec
@@ -79,7 +79,7 @@ redundancy
 !
 !
 interface Ethernet0/0
- ip address 192.168.23.30 255.255.255.0
+ ip address 192.168.23.3 255.255.255.0
  duplex auto
 !
 interface Ethernet0/1
