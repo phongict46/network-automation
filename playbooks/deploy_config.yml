@@ -14,7 +14,7 @@
       loop: "{{ interfaces }}"
 
     - name: Show interfaces variable
-      debug:
+      ansible.builtin.debug:
         var: interfaces
 
     - name: Disable automatic network configuration loading
