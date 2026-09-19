@@ -12,7 +12,10 @@
           - no shutdown
         save_when: always
       loop: "{{ interfaces }}"
-      when: interfaces is defined
+
+    - name: Show interfaces variable
+      debug:
+        var: interfaces
 
     - name: Disable automatic network configuration loading
       cisco.ios.ios_config:
