@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 1229 bytes
+Current configuration : 1328 bytes
 !
-! Last configuration change at 09:51:46 UTC Sat Sep 19 2026 by paul
+! Last configuration change at 14:13:47 UTC Sat Sep 19 2026 by paul
 !
 version 15.7
 service timestamps debug datetime msec
@@ -79,7 +79,7 @@ redundancy
 !
 !
 interface Ethernet0/0
- ip address 192.168.23.3 255.255.255.0
+ ip address 192.168.23.30 255.255.255.0
  duplex auto
 !
 interface Ethernet0/1
@@ -100,6 +100,8 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 192.168.1.1
+ip route 192.168.10.0 255.255.255.0 192.168.23.2
+ip route 192.168.12.0 255.255.255.0 192.168.23.2
 !
 ipv6 ioam timestamp
 !
