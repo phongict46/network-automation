@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
+  bakup:
     runs-on: self-hosted
 
     steps:
