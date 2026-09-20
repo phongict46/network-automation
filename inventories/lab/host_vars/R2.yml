@@ -1,7 +1,7 @@
 ---
 interfaces:
   - name: "Ethernet0/0"
-    ip: "192.168.12.200"
+    ip: "192.168.12.2"
     mask: "255.255.255.0"
 
   - name: "Ethernet0/1"
@@ -11,8 +11,8 @@ interfaces:
 configure_static_routes:
   - prefix: "192.168.10.0"
     mask: "255.255.255.0"
-    next_hop: "192.168.12.100"
+    next_hop: "192.168.12.1"
 
   - prefix: "192.168.2.0"
     mask: "255.255.255.0"
-    next_hop: "192.168.23.30"
+    next_hop: "192.168.23.3"
