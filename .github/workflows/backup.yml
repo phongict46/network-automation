@@ -68,3 +68,81 @@ jobs:
             git commit -m "Router backup $(date '+%Y-%m-%d %H:%M:%S')"
             git push origin main
           fi
+
+      - name: Email router backups
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          TARGET_DEVICE: ${{ github.event.inputs.target_device || 'routers' }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import smtplib
+          import ssl
+          from email.message import EmailMessage
+          from pathlib import Path
+
+          required = (
+              "SMTP_SERVER",
+              "SMTP_PORT",
+              "SMTP_USERNAME",
+              "SMTP_PASSWORD",
+              "EMAIL_FROM",
+              "EMAIL_TO",
+          )
+          missing = [name for name in required if not os.environ.get(name)]
+          if missing:
+              raise SystemExit(f"Missing required GitHub Actions secrets: {', '.join(missing)}")
+
+          target_device = os.environ["TARGET_DEVICE"]
+          if target_device == "routers":
+              backup_files = sorted(Path("configs").glob("*_running_config.txt"))
+          else:
+              backup_file = Path("configs") / f"{target_device}_running_config.txt"
+              backup_files = [backup_file] if backup_file.is_file() else []
+          if not backup_files:
+              raise SystemExit(f"No backup file found for target {target_device!r}.")
+
+          message = EmailMessage()
+          message["Subject"] = (
+              f"Router backup for {target_device} completed "
+              f"(run {os.environ['GITHUB_RUN_NUMBER']})"
+          )
+          message["From"] = os.environ["EMAIL_FROM"]
+          message["To"] = os.environ["EMAIL_TO"]
+          message.set_content(
+              "The router backup workflow completed successfully. "
+              "The saved router configuration backup files are attached."
+          )
+
+          for backup_file in backup_files:
+              message.add_attachment(
+                  backup_file.read_bytes(),
+                  maintype="text",
+                  subtype="plain",
+                  filename=backup_file.name,
+              )
+
+          server = os.environ["SMTP_SERVER"]
+          port = int(os.environ["SMTP_PORT"])
+          context = ssl.create_default_context()
+
+          if port == 465:
+              with smtplib.SMTP_SSL(server, port, context=context, timeout=30) as smtp:
+                  smtp.login(os.environ["SMTP_USERNAME"], os.environ["SMTP_PASSWORD"])
+                  smtp.send_message(message)
+          else:
+              with smtplib.SMTP(server, port, timeout=30) as smtp:
+                  smtp.ehlo()
+                  smtp.starttls(context=context)
+                  smtp.ehlo()
+                  smtp.login(os.environ["SMTP_USERNAME"], os.environ["SMTP_PASSWORD"])
+                  smtp.send_message(message)
+
+          print(f"Email sent with {len(backup_files)} router backup file(s).")
+          PY
