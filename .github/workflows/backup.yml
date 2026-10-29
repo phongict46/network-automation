@@ -83,6 +83,7 @@ jobs:
           python3 - <<'PY'
           import os
           import smtplib
+          import socket
           import ssl
           from email.message import EmailMessage
           from pathlib import Path
@@ -139,6 +140,17 @@ jobs:
 
           server = os.environ["SMTP_SERVER"]
           port = int(os.environ["SMTP_PORT"])
+          try:
+              socket.getaddrinfo(
+                  server, port, type=socket.SOCK_STREAM
+              )
+          except socket.gaierror as error:
+              raise SystemExit(
+                  "Cannot resolve SMTP_SERVER. Set it to the SMTP hostname "
+                  "only (no scheme or port), and check DNS/network access "
+                  f"from the self-hosted runner. Details: {error}"
+              ) from error
+
           context = ssl.create_default_context()
 
           if port == 465:
