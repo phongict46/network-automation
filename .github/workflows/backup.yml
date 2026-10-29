@@ -2,6 +2,8 @@
 name: Backup Router Ansible
 
 'on':
+  schedule:
+    - cron: '13 0 25 * *'
   workflow_dispatch:
     inputs:
       target_device:
